@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 function Chart({ ticker }) {
- const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [priceVariationList, setPriceVariationList] = useState([]);
   const [timeline, setTimeline] = useState("1D");
   const [templist, setTemplist] = useState([]);
@@ -93,86 +93,95 @@ function Chart({ ticker }) {
 
   return (
     <div className="max-w-[1026px] mt-4 mx-auto flex flex-col items-center gap-2">
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart
-          data={priceVariationList}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            padding={{ left: 10 }}
-            angle={-45}
-            minTickGap={10}
-            height={50}
-            reversed
-            dataKey="time"
-          />
-          <YAxis domain={["dataMin-1", "dataMax+1"]} />
-          <Tooltip />
-          {/* <Legend /> */}
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke="#8884d8"
-            activeDot={{ r: 4 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-      <div className="flex gap-2">
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("1D");
-          }}
-        >
-          1D
+      {priceVariationList.length > 0 && (
+        <div>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart
+              data={priceVariationList}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                padding={{ left: 10 }}
+                angle={-45}
+                minTickGap={10}
+                height={50}
+                reversed
+                dataKey="time"
+              />
+              <YAxis domain={["dataMin-1", "dataMax+1"]} />
+              <Tooltip />
+              {/* <Legend /> */}
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#8884d8"
+                activeDot={{ r: 4 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          <div className="flex gap-2">
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("1D");
+              }}
+            >
+              1D
+            </div>
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("1W");
+              }}
+            >
+              1W
+            </div>
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("1M");
+              }}
+            >
+              1M
+            </div>
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("3M");
+              }}
+            >
+              3M
+            </div>
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("6M");
+              }}
+            >
+              6M
+            </div>
+            <div
+              className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
+              onClick={() => {
+                setTimeline("1Y");
+              }}
+            >
+              1Y
+            </div>
+          </div>
         </div>
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("1W");
-          }}
-        >
-          1W
+      )}
+      {priceVariationList.length == 0 && (
+        <div className="text-gray-500 text-center font-semibold text-[20px] mt-4">
+          Some error occured, try after sometime!
         </div>
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("1M");
-          }}
-        >
-          1M
-        </div>
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("3M");
-          }}
-        >
-          3M
-        </div>
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("6M");
-          }}
-        >
-          6M
-        </div>
-        <div
-          className="py-2 px-4 bg-blue-300 rounded-full cursor-pointer"
-          onClick={() => {
-            setTimeline("1Y");
-          }}
-        >
-          1Y
-        </div>
-      </div>
+      )}
     </div>
   );
 }
