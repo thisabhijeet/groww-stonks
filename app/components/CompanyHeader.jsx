@@ -21,7 +21,9 @@ function CompanyHeader({
           <div className="text-gray-500 sm:text-[16px]">{exchange}</div>
         </div>
         <div className="flex flex-col items-center sm:text-[20px]">
-          <div className="text-[14px] sm:text-[20px] font-bold">&#36; {currentPrice}</div>
+          <div className="text-[14px] sm:text-[20px] font-bold">
+            &#36; {currentPrice}
+          </div>
           {gain && (
             <div className="flex gap-2 items-center">
               <div className="text-green-500 sm:text-[12px]">
@@ -46,7 +48,7 @@ function CompanyHeader({
           )}
           {!gain && (
             <div className="flex gap-2 items-center">
-              <div className="text-green-500 text-[12px]">
+              <div className="text-red-600 text-[12px]">
                 {changePercentage.split(".")[0] +
                   "." +
                   changePercentage.split(".")[1].slice(0, 2)}
@@ -54,8 +56,8 @@ function CompanyHeader({
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                fill="green"
-                className="w-4 h-4 fill-green-500"
+                fill="red"
+                className="w-4 h-4 fill-red-600"
               >
                 <path
                   fillRule="evenodd"

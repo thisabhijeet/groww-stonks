@@ -7,7 +7,7 @@ import CompanyHeader from "../components/CompanyHeader";
 import CompanyInfo from "../components/CompanyInfo";
 
 export default function Page({ params }) {
-  const API_KEY = process.env.API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
   const [currentPrice, setCurrentPrice] = useState("0.0");
   const [changePercentage, setChangePercentage] = useState("0.0");
@@ -18,12 +18,12 @@ export default function Page({ params }) {
 
   const fetchCompanyData = async () => {
     const data = await axios.get(
-      `https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo`
-      // `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${params.ticker}&apikey=${API_KEY}`
+      // `https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo`
+      `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${params.ticker}&apikey=${API_KEY}`
     );
     const data2 = await axios.get(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo`
-      // `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${params.ticker}&apikey=${API_KEY}`
+      // `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo`
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${params.ticker}&apikey=${API_KEY}`
     );
     // console.log(data);
     if (data.data.Symbol && data2.data["Global Quote"]) {
@@ -34,7 +34,7 @@ export default function Page({ params }) {
     } else {
       // console.log(data.data);
       if (
-        Object.keys(data.data).length == 0 ||
+        Object.keys(data.data).length == 0 &&
         Object.keys(data2.data).length == 0
       ) {
         setErrorMssg("Please try searching for a valid Commodity or Company");

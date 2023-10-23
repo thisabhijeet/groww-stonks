@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import TickerCard from "./components/TickerCard";
 
 export default function Home() {
-  const API_KEY = process.env.API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [gainerList, setGainerList] = useState([]);
   const [loserList, setLoserList] = useState([]);
   const [renderList, setRenderList] = useState([]);
@@ -14,13 +14,12 @@ export default function Home() {
 
   const fetchStockList = async () => {
     const data = await axios.get(
-      `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`
-      // `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${API_KEY}`
+      // `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`
+      `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${API_KEY}`
     );
     if (data.data.top_gainers) {
       setGainerList(data.data.top_gainers);
       setLoserList(data.data.top_losers);
-      setLoadState("Success");
     } else {
       setErrorMssg(
         "You have reached the API requests limits. Try after sometime."
@@ -48,8 +47,9 @@ export default function Home() {
 
   const handleLoadMore = () => {
     const newSize = renderList.length + 15;
+    console.log(currentTab);
     setRenderList(
-      currentTab == "TopGainer"
+      currentTab == "TopGainers"
         ? gainerList.slice(0, newSize)
         : loserList.slice(0, newSize)
     );

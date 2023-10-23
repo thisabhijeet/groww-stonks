@@ -12,6 +12,7 @@ import {
 } from "recharts";
 
 function Chart({ ticker }) {
+ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [priceVariationList, setPriceVariationList] = useState([]);
   const [timeline, setTimeline] = useState("1D");
   const [templist, setTemplist] = useState([]);
@@ -26,7 +27,6 @@ function Chart({ ticker }) {
         tempObj["value"] = templist[key]["4. close"];
         temp.push(tempObj);
       });
-      // console.log(temp);
       setPriceVariationList(temp);
     } else {
       const temp = [];
@@ -55,12 +55,8 @@ function Chart({ ticker }) {
         j = 0;
       const finalTemp = [];
       while (s >= e) {
-        // console.log(i);
         let d1 = Date.parse(temp[j]["time"]);
-        console.log(d1);
-        console.log(s);
         if (d1 == s) {
-          console.log(temp[j]);
           finalTemp.push(temp[j]);
           j++;
         }
@@ -70,19 +66,27 @@ function Chart({ ticker }) {
       setPriceVariationList(finalTemp);
     }
   }, [templist]);
+
   const fetchInitialList = async () => {
     if (timeline === "1D") {
       const temp = await axios.get(
-        "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo"
+        // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo"
+        `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=5min&apikey=${API_KEY}`
       );
-      setTemplist(temp.data["Time Series (5min)"]);
+      if (temp.data["Time Series (5min)"]) {
+        setTemplist(temp.data["Time Series (5min)"]);
+      }
     } else {
       const temp = await axios.get(
-        "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo"
+        // "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo"
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=full&apikey=${API_KEY}`
       );
-      setTemplist(temp.data["Time Series (Daily)"]);
+      if (setTemplist(temp.data["Time Series (Daily)"])) {
+        setTemplist(temp.data["Time Series (Daily)"]);
+      }
     }
   };
+
   useEffect(() => {
     fetchInitialList();
   }, [timeline]);

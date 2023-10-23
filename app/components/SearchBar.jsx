@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 function SearchBar() {
-  const API_KEY = process.env.API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [searchInput, setSearchInput] = useState("");
   const [relatedItems, setRelatedItems] = useState([]);
   const [renderList, setRenderList] = useState([]);
@@ -16,9 +16,9 @@ function SearchBar() {
   const fetchRelatedItems = async () => {
     const data = await axios.get(
       // `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo`
-      `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchInput}&apikey=${API_KEY}`
+      `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchInput}&apikey=${process.env.API_KEY}`
     );
-    console.log(data);
+    // console.log(data);
     if (data.data.bestMatches) {
       setRelatedItems(data.data.bestMatches);
     } else {
