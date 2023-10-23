@@ -114,3 +114,5 @@ General:
 | `apikey`   | `string` | **Required**. Your API key                                     |
 | `function` | `string` | **Required**. Defines the data required                        |
 | `symbol`   | `string` | **Required**. Represents the ticker symbol for a company/stock |
+
+#### All the best & have fun!
