@@ -16,6 +16,7 @@ function Chart({ ticker }) {
   const [priceVariationList, setPriceVariationList] = useState([]);
   const [timeline, setTimeline] = useState("1D");
   const [templist, setTemplist] = useState([]);
+  const [loadState, setLoadState] = useState("Loading");
 
   useEffect(() => {
     // console.log(templist);
@@ -75,25 +76,39 @@ function Chart({ ticker }) {
       );
       if (temp.data["Time Series (5min)"]) {
         setTemplist(temp.data["Time Series (5min)"]);
+      } else {
+        setLoadState("Error");
       }
     } else {
       const temp = await axios.get(
         // "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo"
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=full&apikey=${API_KEY}`
       );
-      if (setTemplist(temp.data["Time Series (Daily)"])) {
+      if (temp.data["Time Series (Daily)"]) {
         setTemplist(temp.data["Time Series (Daily)"]);
+      } else {
+        setLoadState("Error");
       }
     }
   };
 
   useEffect(() => {
+    setLoadState("Success");
+  }, [priceVariationList]);
+
+  useEffect(() => {
+    setLoadState("Loading");
     fetchInitialList();
   }, [timeline]);
 
   return (
     <div className="max-w-[1026px] mt-4 mx-auto flex flex-col items-center gap-2">
-      {priceVariationList.length > 0 && (
+      {loadState == "Loading" && (
+        <div className="text-gray-500 text-center font-semibold text-[20px] mt-4">
+          Loading Graphical data.
+        </div>
+      )}
+      {loadState == "Success" && (
         <div>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart
@@ -177,7 +192,7 @@ function Chart({ ticker }) {
           </div>
         </div>
       )}
-      {priceVariationList.length == 0 && (
+      {loadState == "Error" && (
         <div className="text-gray-500 text-center font-semibold text-[20px] mt-4">
           Some error occured, try after sometime!
         </div>
