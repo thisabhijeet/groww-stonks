@@ -109,7 +109,7 @@ function Chart({ ticker }) {
         </div>
       )}
       {loadState == "Success" && (
-        <div className="w-full">
+        <div className="w-full flex flex-col items-center">
           <ResponsiveContainer width="100%" height={400}>
             <LineChart
               data={priceVariationList}
