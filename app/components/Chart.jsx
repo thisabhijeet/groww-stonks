@@ -15,7 +15,7 @@ function Chart({ ticker }) {
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [priceVariationList, setPriceVariationList] = useState([]);
   const [timeline, setTimeline] = useState("1D");
-  const [templist, setTemplist] = useState([]);
+  const [templist, setTemplist] = useState({});
   const [loadState, setLoadState] = useState("Loading");
 
   useEffect(() => {
@@ -109,7 +109,7 @@ function Chart({ ticker }) {
         </div>
       )}
       {loadState == "Success" && (
-        <div>
+        <div className="w-full">
           <ResponsiveContainer width="100%" height={400}>
             <LineChart
               data={priceVariationList}
